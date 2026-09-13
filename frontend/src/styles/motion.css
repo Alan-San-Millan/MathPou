@@ -1,0 +1,117 @@
+/* Entradas y micro-interacciones del lab.
+   Solo opacity/transform para no pelear con el layout. */
+
+@keyframes mp-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mp-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes mp-soft-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(15, 118, 110, 0.35); }
+  70% { box-shadow: 0 0 0 10px rgba(15, 118, 110, 0); }
+}
+
+.mp-enter {
+  animation: mp-fade-up var(--mp-motion-enter) var(--mp-ease-out) both;
+}
+
+.mp-enter-slow {
+  animation: mp-fade-up var(--mp-motion-enter-slow) var(--mp-ease-out) both;
+}
+
+.mp-stagger > * {
+  animation: mp-fade-up var(--mp-motion-enter) var(--mp-ease-out) both;
+}
+
+.mp-stagger > *:nth-child(1) { animation-delay: 0ms; }
+.mp-stagger > *:nth-child(2) { animation-delay: 50ms; }
+.mp-stagger > *:nth-child(3) { animation-delay: 100ms; }
+.mp-stagger > *:nth-child(4) { animation-delay: 150ms; }
+.mp-stagger > *:nth-child(5) { animation-delay: 200ms; }
+.mp-stagger > *:nth-child(6) { animation-delay: 250ms; }
+.mp-stagger > *:nth-child(7) { animation-delay: 300ms; }
+.mp-stagger > *:nth-child(8) { animation-delay: 350ms; }
+
+.mp-icon-chip {
+  display: inline-grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  flex-shrink: 0;
+  border-radius: var(--mp-radius-sm);
+  background: var(--mp-accent-soft);
+  color: var(--mp-accent);
+  font-size: 1.1rem;
+}
+
+.mp-icon-chip--primary {
+  background: rgba(12, 59, 94, 0.1);
+  color: var(--mp-primary);
+}
+
+.mp-lift {
+  transition:
+    transform var(--mp-ease),
+    box-shadow var(--mp-ease),
+    border-color var(--mp-ease);
+}
+
+.mp-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--mp-shadow-lg);
+}
+
+.mp-press:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.mp-busy {
+  position: relative;
+}
+
+.mp-busy::after {
+  content: '';
+  width: 0.85rem;
+  height: 0.85rem;
+  margin-left: 0.45rem;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: -0.1rem;
+  animation: mp-spin 0.7s linear infinite;
+}
+
+@keyframes mp-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mp-cta-hint {
+  animation: mp-soft-pulse 2.4s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-enter,
+  .mp-enter-slow,
+  .mp-stagger > *,
+  .mp-cta-hint,
+  .mp-busy::after {
+    animation: none !important;
+  }
+
+  .mp-lift:hover,
+  .mp-press:active {
+    transform: none;
+  }
+}

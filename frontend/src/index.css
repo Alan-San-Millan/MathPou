@@ -1,0 +1,139 @@
+@import './styles/tokens.css';
+@import './styles/motion.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--mp-font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--mp-ink);
+  background: var(--mp-paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+.mp-display {
+  font-family: var(--mp-font-display);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--mp-ink);
+}
+
+a {
+  color: var(--mp-accent);
+}
+
+a:hover {
+  color: var(--mp-accent-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--mp-focus);
+  outline-offset: 2px;
+}
+
+button,
+.btn,
+a.button,
+.mp-btn {
+  cursor: pointer;
+  transition: background-color var(--mp-ease), color var(--mp-ease),
+    border-color var(--mp-ease), transform var(--mp-ease), box-shadow var(--mp-ease);
+}
+
+.mp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.65rem 1.25rem;
+  border-radius: var(--mp-radius-sm);
+  border: 2px solid transparent;
+  font-family: var(--mp-font-body);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.mp-btn-primary {
+  background: var(--mp-primary);
+  color: #fff;
+}
+
+.mp-btn-primary:hover {
+  background: var(--mp-primary-hover);
+  color: #fff;
+}
+
+.mp-btn-accent {
+  background: var(--mp-accent);
+  color: #fff;
+}
+
+.mp-btn-accent:hover {
+  background: var(--mp-accent-hover);
+  color: #fff;
+}
+
+.mp-btn-ghost {
+  background: transparent;
+  color: var(--mp-primary);
+  border-color: var(--mp-border);
+}
+
+.mp-btn-ghost:hover {
+  background: var(--mp-paper-deep);
+}
+
+.mp-card {
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-lg);
+  box-shadow: var(--mp-shadow);
+}
+
+.mp-eyebrow {
+  font-family: var(--mp-font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mp-accent);
+}
+
+.mp-lede {
+  font-size: 1.125rem;
+  color: var(--mp-ink-soft);
+  max-width: 42rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

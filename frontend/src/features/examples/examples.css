@@ -1,0 +1,142 @@
+.examples-page {
+  min-height: 100vh;
+  background: var(--mp-paper);
+  padding: clamp(0.85rem, 2.5vw, 1.5rem);
+}
+
+.examples-page .scroll-container {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+.examples-page .lab-page-header {
+  margin: 0 0 1.35rem;
+}
+
+.examples-page h1 {
+  font-family: var(--mp-font-display);
+  font-size: clamp(1.45rem, 4vw, 2.2rem);
+  color: var(--mp-primary);
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+.examples-lede {
+  color: var(--mp-ink-soft);
+  margin: 0;
+  max-width: 42rem;
+  line-height: 1.55;
+}
+
+.examples-page .row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: 1.15rem;
+}
+
+.examples-page .card {
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--mp-shadow);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.examples-page .card-header {
+  background: var(--mp-primary);
+  color: #fff;
+  font-family: var(--mp-font-display);
+  font-size: clamp(1rem, 2.5vw, 1.1rem);
+  font-weight: 600;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.examples-page .card-badge {
+  font-family: var(--mp-font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--mp-radius-sm);
+  padding: 0.25rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.examples-page .lab-page-header .mp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+
+.examples-page .card-body {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.examples-page .formula {
+  background: var(--mp-paper);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  padding: 0.75rem;
+  text-align: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.examples-page .formula img {
+  max-width: 100%;
+  height: auto;
+}
+
+.examples-page .featured-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+  width: 100%;
+}
+
+.examples-page .example-plot-host {
+  width: 100%;
+  min-height: 180px;
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-sm);
+  background: #fff;
+  overflow: hidden;
+}
+
+.examples-page .example-plot-host canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.examples-page .featured-image img {
+  max-width: 100%;
+  border-radius: var(--mp-radius-sm);
+  border: 1px solid var(--mp-border);
+  background: #fff;
+}
+
+@media (max-width: 480px) {
+  .examples-page .row {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,141 @@
+.frequency-page {
+  min-height: 100vh;
+  padding: clamp(0.85rem, 2.5vw, 1.5rem);
+  background: var(--mp-paper);
+}
+
+.frequency-page .container {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-lg);
+  box-shadow: var(--mp-shadow);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  overflow: hidden;
+}
+
+.frequency-page .lab-page-header {
+  margin: 0 0 1.15rem;
+}
+
+.frequency-page h1 {
+  font-family: var(--mp-font-display);
+  font-size: clamp(1.45rem, 4vw, 2rem);
+  color: var(--mp-primary);
+  text-align: left;
+  margin: 0 0 0.55rem;
+  line-height: 1.2;
+}
+
+.frequency-page .mp-lede,
+.frequency-page .section-help {
+  color: var(--mp-ink-soft);
+  margin: 0;
+  max-width: 44rem;
+  line-height: 1.55;
+}
+
+.frequency-page .lab-section {
+  margin-bottom: 1.15rem;
+}
+
+.frequency-page .section-title {
+  font-weight: 700;
+  color: var(--mp-primary);
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.frequency-page .lab-page-header .mp-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+
+.frequency-page .menu-card {
+  float: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.frequency-page .menu-item {
+  background: var(--mp-paper);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius);
+  padding: 0.9rem;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.frequency-page .menu-item h3 {
+  margin: 0;
+  font-family: var(--mp-font-display);
+  font-size: 1.05rem;
+  color: var(--mp-ink);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.frequency-page .menu-item button {
+  min-height: 44px;
+  padding: 0.45rem 0.9rem;
+  border: none;
+  border-radius: var(--mp-radius-sm);
+  background: var(--mp-accent);
+  color: #fff;
+  font-weight: 700;
+  font-family: var(--mp-font-body);
+  cursor: pointer;
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  transition: background-color var(--mp-ease);
+}
+
+.frequency-page .menu-item button:hover {
+  background: var(--mp-accent-hover);
+}
+
+.frequency-page .canvas-hint {
+  margin-bottom: 0.65rem;
+  font-size: 0.92rem;
+}
+
+#canvas-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius);
+  background: #f8fafc;
+  padding: 0.35rem;
+}
+
+#canvas-container canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  touch-action: none;
+}
+
+@media (max-width: 480px) {
+  .frequency-page .menu-card {
+    grid-template-columns: 1fr 1fr;
+  }
+}

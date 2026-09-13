@@ -1,0 +1,60 @@
+/**
+ * MathPou — sistema visual académico / educativo
+ * Títulos: Crimson Pro · Cuerpo: Atkinson Hyperlegible
+ * Paleta: azul de aula + teal (sin púrpura genérico)
+ */
+
+:root {
+  --mp-ink: #0c2740;
+  --mp-ink-soft: #334e68;
+  --mp-muted: #627d98;
+  --mp-paper: #f3f6f9;
+  --mp-paper-deep: #e8eef4;
+  --mp-surface: #ffffff;
+  --mp-primary: #0c3b5e;
+  --mp-primary-hover: #0a2f4b;
+  --mp-accent: #0f766e;
+  --mp-accent-hover: #0d5f59;
+  --mp-accent-soft: #ccfbf1;
+  --mp-border: #c5d4e3;
+  --mp-focus: #0f766e;
+  --mp-danger: #b42318;
+  --mp-warning: #b54708;
+  --mp-success: #067647;
+
+  --mp-font-display: 'Crimson Pro', 'Georgia', serif;
+  --mp-font-body: 'Atkinson Hyperlegible', 'Segoe UI', sans-serif;
+
+  --mp-space-1: 0.25rem;
+  --mp-space-2: 0.5rem;
+  --mp-space-3: 0.75rem;
+  --mp-space-4: 1rem;
+  --mp-space-5: 1.5rem;
+  --mp-space-6: 2rem;
+  --mp-space-7: 3rem;
+  --mp-space-8: 4rem;
+
+  --mp-radius-sm: 6px;
+  --mp-radius: 10px;
+  --mp-radius-lg: 16px;
+
+  --mp-shadow: 0 8px 24px rgba(12, 59, 94, 0.08);
+  --mp-shadow-lg: 0 16px 40px rgba(12, 59, 94, 0.12);
+
+  --mp-sidebar-width: 280px;
+  --mp-sidebar-collapsed: 64px;
+  --mp-ease: 180ms ease;
+  --mp-ease-slow: 280ms ease;
+  --mp-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --mp-motion-enter: 380ms;
+  --mp-motion-enter-slow: 520ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mp-ease: 0ms;
+    --mp-ease-slow: 0ms;
+    --mp-motion-enter: 0ms;
+    --mp-motion-enter-slow: 0ms;
+  }
+}

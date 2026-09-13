@@ -1,0 +1,87 @@
+.dashboard-page {
+  padding: 2rem 1.5rem 3rem;
+  background: var(--mp-paper);
+  min-height: 100vh;
+}
+
+.dashboard-page .dash-content {
+  width: min(1100px, 100%);
+  margin: 0 auto;
+}
+
+.dashboard-page .overview .title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-page .overview .title i {
+  color: var(--mp-accent);
+  font-size: 1.6rem;
+}
+
+.dashboard-page .overview .title .text {
+  font-family: var(--mp-font-display);
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  font-weight: 700;
+  color: var(--mp-primary);
+}
+
+.dashboard-intro {
+  color: var(--mp-ink-soft);
+  max-width: 42rem;
+  margin: 0 0 2rem;
+}
+
+.boxes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.signal-box {
+  background: var(--mp-surface);
+  border: 1px solid var(--mp-border);
+  border-radius: var(--mp-radius-lg);
+  padding: 1.35rem;
+  box-shadow: var(--mp-shadow);
+  transition: transform var(--mp-ease), box-shadow var(--mp-ease);
+  border-top: 4px solid var(--mp-accent);
+}
+
+.signal-box:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--mp-shadow-lg);
+}
+
+.signal-box.square { border-top-color: #0c3b5e; }
+.signal-box.triangular { border-top-color: #0f766e; }
+.signal-box.combined { border-top-color: #1d4e89; }
+.signal-box.harmonics { border-top-color: #14746f; }
+.signal-box.fourier { border-top-color: #243b53; }
+.signal-box.reconstruction { border-top-color: #0b6e4f; }
+
+.box-header {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.75rem;
+}
+
+.box-header h2 {
+  margin: 0;
+  font-family: var(--mp-font-display);
+  font-size: 1.35rem;
+}
+
+.box-icon {
+  color: var(--mp-accent);
+  font-size: 1.25rem;
+}
+
+.box-content p {
+  margin: 0;
+  color: var(--mp-ink-soft);
+  font-size: 0.98rem;
+}
