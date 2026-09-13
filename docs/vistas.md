@@ -38,9 +38,13 @@ Seis tarjetas educativas (`dashboard.css`). No son links; el menú lateral es la
 
 La matriz que viaja al API **incluye** `[0, t0]`. Estilos: `time-domain.css`.
 
+Cómo se interpreta la gráfica a nivel mates: [matematica.md](matematica.md#1-dominio-del-tiempo-apptiempo).
+
 ### `/app/frecuencia` — Dominio de la frecuencia
 
 Editor A₀–A₁₁ + fases. Todo en el navegador (`frequencySketch.js` + `frequency-domain.css`). Los botones “Cargar” no tocan el API; los números están en `EXAMPLE_PRESETS`.
+
+Mates de la reconstrucción: [matematica.md](matematica.md#2-dominio-de-la-frecuencia-appfrecuencia).
 
 ### `/app/ejemplos` — Galería
 
@@ -49,7 +53,7 @@ Editor A₀–A₁₁ + fases. Todo en el navegador (`frequencySketch.js` + `fre
 | 1–4 | `GET /api/signals/examples/<id>/` + p5 |
 | 5–6 | Imágenes estáticas en `public/img/` |
 
-Estilos: `examples.css`.
+Estilos: `examples.css`. Serie truncada vs figura fija: [matematica.md](matematica.md#3-ejemplos-de-series-típicas-appejemplos).
 
 ## Motion / iconos
 

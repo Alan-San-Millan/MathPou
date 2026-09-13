@@ -4,6 +4,7 @@ Simulador educativo de series de Fourier (tesis). API Django + SPA React en dos 
 
 - Arranque y reglas críticas: [AGENTS.md](AGENTS.md)
 - Arquitectura, vistas y API: [docs/](docs/)
+- Matemática de las gráficas (sin código): [docs/matematica.md](docs/matematica.md)
 
 ## Arranque local
 

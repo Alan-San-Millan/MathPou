@@ -6,6 +6,7 @@ Si llegaste a seguir la tesis: el monolito Django ya no está. Ahora es API + SP
 |----------|-----|
 | Cómo está partido el repo | [docs/arquitectura.md](docs/arquitectura.md) |
 | Qué hace cada pantalla / sección | [docs/vistas.md](docs/vistas.md) |
+| Cómo se generan las gráficas (mates) | [docs/matematica.md](docs/matematica.md) |
 | Contratos JSON | [docs/api.md](docs/api.md) |
 
 > `loginSignup/` no existe más. No la restaures.
