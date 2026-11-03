@@ -2,7 +2,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .domain.fourier import EXAMPLE_PULSES, generate_pulse_signal, grafica_example_calculate
+from .domain.fourier import (
+    EXAMPLE_PULSES,
+    generate_pulse_signal,
+    grafica_example_calculate,
+    reconstruct_pulse_signal,
+)
 from .serializers import PulseRequestSerializer
 
 
@@ -12,7 +17,11 @@ class PulseView(APIView):
     def post(self, request):
         serializer = PulseRequestSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        result = generate_pulse_signal(serializer.validated_data["datos"])
+        datos = serializer.validated_data["datos"]
+        result = generate_pulse_signal(datos)
+        harmonics = serializer.validated_data.get("armonicos")
+        if harmonics is not None:
+            result["reconstruction"] = reconstruct_pulse_signal(datos, harmonics)
         return Response(result)
 
 

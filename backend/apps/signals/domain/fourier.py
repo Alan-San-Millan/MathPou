@@ -110,6 +110,57 @@ def calculate_signal_data(matriz=None):
     }
 
 
+def reconstruct_pulse_signal(matriz, harmonics, periods=4, num_samples=4000):
+    """Serie truncada de un tren de pulsos, mismas fórmulas que tren_n_pulsos.m.
+
+    El intervalo de integración es [t0, tn], así que T = tn - t0 aunque t0 sea negativo.
+    """
+    amplitudes = np.array([row[0] for row in matriz], dtype=float)
+    times = np.array([row[1] for row in matriz], dtype=float)
+    t0 = times[0]
+    T = times[-1] - t0
+    t = np.linspace(t0, t0 + periods * T, num_samples)
+    if len(matriz) < 2 or T <= 0:
+        return {
+            "time": [float(v) for v in t],
+            "signal": [0.0] * len(t),
+            "a0": 0.0,
+            "an": [],
+            "bn": [],
+            "magnitudes": [],
+            "phi": [],
+        }
+
+    w0 = 2 * np.pi / T
+    A = amplitudes[1:]
+    t_start = times[:-1]
+    t_end = times[1:]
+
+    a0 = float(np.sum((2 / T) * A * (t_end - t_start)))
+    f = np.full_like(t, a0 / 2)
+    an_values = []
+    bn_values = []
+    for n in range(1, harmonics + 1):
+        an = np.sum((1 / (n * np.pi)) * A * (np.sin(n * w0 * t_end) - np.sin(n * w0 * t_start)))
+        bn = -np.sum((1 / (n * np.pi)) * A * (np.cos(n * w0 * t_end) - np.cos(n * w0 * t_start)))
+        an_values.append(float(an))
+        bn_values.append(float(bn))
+        f += an * np.cos(n * w0 * t) + bn * np.sin(n * w0 * t)
+
+    an_arr = np.array(an_values)
+    bn_arr = np.array(bn_values)
+    return {
+        "time": [float(v) for v in t],
+        "signal": [float(v) for v in f],
+        "a0": a0,
+        "an": an_values,
+        "bn": bn_values,
+        # Forma amplitud-fase como pulso_basico.m: Aₙ = √(aₙ² + bₙ²), φₙ = −atan2(bₙ, aₙ).
+        "magnitudes": [float(v) for v in np.sqrt(an_arr**2 + bn_arr**2)],
+        "phi": [float(v) for v in -np.arctan2(bn_arr, an_arr)],
+    }
+
+
 def generate_pulse_signal(matriz):
     if not matriz:
         return {"time": [], "signal": [], "T": 0, "w0": 0}
@@ -117,12 +168,12 @@ def generate_pulse_signal(matriz):
     amplitudes = [row[0] for row in matriz]
     times = [row[1] for row in matriz]
 
-    T = times[-1] if times else 0
+    T = times[-1] - times[0] if times else 0
     w0 = 2 * np.pi / T if T > 0 else 0
 
     num_samples = 1000
     t_max = max(times) if times else 1
-    t = np.linspace(0, t_max + 1, num_samples)
+    t = np.linspace(min(0, times[0]), t_max + 1, num_samples)
 
     signal = np.zeros_like(t)
 

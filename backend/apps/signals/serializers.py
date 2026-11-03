@@ -10,3 +10,4 @@ class PulseRequestSerializer(serializers.Serializer):
         ),
         allow_empty=False,
     )
+    armonicos = serializers.IntegerField(min_value=1, max_value=3000, required=False)

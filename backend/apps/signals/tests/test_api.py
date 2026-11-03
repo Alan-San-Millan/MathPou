@@ -56,6 +56,37 @@ def test_pulse_returns_waveform(api, user):
     assert body["T"] == 3
 
 
+def test_pulse_with_harmonics_returns_reconstruction(api, user):
+    token = api.post(
+        "/api/auth/token/",
+        {"username": "ana", "password": "secreto12"},
+        format="json",
+    ).json()["access"]
+    api.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
+    response = api.post(
+        "/api/signals/pulse/",
+        {"datos": [[0, 0], [1, 1], [-2, 3]], "armonicos": 20},
+        format="json",
+    )
+    assert response.status_code == 200
+    reconstruction = response.json()["reconstruction"]
+    assert len(reconstruction["time"]) == len(reconstruction["signal"])
+
+    invalid = api.post(
+        "/api/signals/pulse/",
+        {"datos": [[0, 0], [1, 1]], "armonicos": 0},
+        format="json",
+    )
+    assert invalid.status_code == 400
+
+    too_many = api.post(
+        "/api/signals/pulse/",
+        {"datos": [[0, 0], [1, 1]], "armonicos": 3001},
+        format="json",
+    )
+    assert too_many.status_code == 400
+
+
 def test_login_with_email(api, user):
     response = api.post(
         "/api/auth/token/",

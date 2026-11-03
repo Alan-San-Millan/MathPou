@@ -26,19 +26,18 @@ Cada pantalla del lab mira esa historia desde un ángulo distinto: primero la fo
 
 Una señal de **pulsos a tramos constantes** (escalera):
 
-- **t₀**: instante donde empieza el primer módulo.
-- Para cada pulso **k = 1, 2, …, N**:
-  - amplitud **Aₖ**
-  - tiempo final **tₖ** (con **tₖ ≥ tₖ₋₁**)
+Hay 4 pulsos de base (se pueden agregar hasta 10). Cada pulso tiene:
 
-Entre **tₖ₋₁** y **tₖ** la señal vale **Aₖ**. Antes de **t₀** no hay tramo “activo” en el sentido del constructor; el periodo se toma a partir del último tiempo.
+- tiempo inicial **tᵢ**, tiempo final **t_f** (con **t_f > tᵢ**) y amplitud **A**.
+
+Solo cuentan los pulsos con los tres campos llenos; los incompletos se ignoran con un aviso. El **tᵢ** de un pulso no puede ser menor que el **t_f** del anterior; si queda un hueco, la señal vale 0 en él. Internamente se arma la matriz del API **[[0, t₀], [A₁, t₁], …]** con **t₀** = primer **tᵢ** y los huecos como tramos de amplitud 0.
 
 ### Periodo y frecuencia
 
 En este módulo el periodo se identifica con el último instante introducido:
 
 ```text
-T = tₙ
+T = tₙ − t₀     (con t₀ = 0 es simplemente tₙ)
 ω₀ = 2π / T     (si T > 0)
 ```
 
@@ -60,9 +59,19 @@ No se está calculando aún la serie infinita. Se dibuja la **señal en el domin
 
 **Intuición:** si pones **A₁ = 1** de **t₀ = 0** a **t₁ = 1**, y **A₂ = −1** de **t₁ = 1** a **t₂ = 2**, ves un pulso positivo seguido de uno negativo, con **T = 2**.
 
-### Qué no hace esta pantalla
+### Reconstrucción con N armónicos
 
-No dibuja **aₙ** ni **bₙ**. Aquí el objetivo pedagógico es: “esta es mi **f(t)** a trozos; este es su **T** y su **ω₀**”. La descomposición espectral se trabaja en las otras secciones.
+El estudiante elige cuántos armónicos usar. El servidor calcula, igual que `tren_n_pulsos.m`, integrando sobre [t₀, tₙ]:
+
+```text
+a₀ = Σ (2/T) · Aₖ · (tₖ − tₖ₋₁)
+aₙ = Σ (1/(nπ)) · Aₖ · [sin(nω₀tₖ) − sin(nω₀tₖ₋₁)]
+bₙ = −Σ (1/(nπ)) · Aₖ · [cos(nω₀tₖ) − cos(nω₀tₖ₋₁)]
+```
+
+y dibuja **f_N(t) = a₀/2 + Σₙ₌₁ᴺ [aₙ cos(nω₀t) + bₙ sin(nω₀t)]** desde t₀ hasta t₀ + 4T.
+
+Se ven tres gráficas con la misma escala: la ideal (azul oscuro), la reconstrucción (rojo) y ambas superpuestas, donde se aprecia el efecto Gibbs en los saltos.
 
 ---
 
@@ -144,7 +153,7 @@ Seno rectificado de media onda y de onda completa. Aquí no se recalcula la seri
 
 | Sección | Entrada conceptual | Salida que ves |
 |---------|--------------------|----------------|
-| Tiempo | Escalera Aₖ, tₖ | Forma de f(t), T, ω₀ |
+| Tiempo | Escalera Aₖ, tₖ y N armónicos | Forma de f(t), T, ω₀ y reconstrucción con N armónicos |
 | Frecuencia | Coeficientes Aₙ, φₙ | Suma de armónicos en el tiempo |
 | Ejemplos 1–4 | Pulsos fijos de la tesis | Serie truncada (aₙ, bₙ) |
 | Ejemplos 5–6 | Fórmula clásica | Imagen de referencia |

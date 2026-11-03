@@ -19,11 +19,13 @@ Base: `/api/…`. Header de auth: `Authorization: Bearer <access>`.
 
 ```
 POST /api/signals/pulse/
-{ "datos": [[0, t0], [A1, t1], [A2, t2], ...] }
-→ { time, signal, T, w0 }
+{ "datos": [[0, t0], [A1, t1], [A2, t2], ...], "armonicos": 50 }
+→ { time, signal, T, w0, reconstruction?: { time, signal, a0, an, bn, magnitudes, phi } }
 ```
 
-Implementación: `generate_pulse_signal` en `fourier.py`.
+`T = tₙ − t₀`. `armonicos` es opcional (entero de 1 a 3000); si viene, la respuesta incluye `reconstruction`: la serie truncada de t₀ a t₀ + 4T.
+
+Implementación: `generate_pulse_signal` y `reconstruct_pulse_signal` en `fourier.py`.
 
 ### Ejemplos 1–4
 

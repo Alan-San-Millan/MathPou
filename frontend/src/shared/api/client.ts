@@ -135,10 +135,21 @@ export type PulseResult = {
   signal: number[]
   T: number
   w0: number
+  reconstruction?: Reconstruction
 }
 
-export function postPulse(datos: number[][]) {
-  return apiRequest<PulseResult>('/api/signals/pulse/', { method: 'POST', body: { datos } })
+export type Reconstruction = {
+  time: number[]
+  signal: number[]
+  a0: number
+  an: number[]
+  bn: number[]
+  magnitudes: number[]
+  phi: number[]
+}
+
+export function postPulse(datos: number[][], armonicos?: number) {
+  return apiRequest<PulseResult>('/api/signals/pulse/', { method: 'POST', body: { datos, armonicos } })
 }
 
 export type ExampleResult = {

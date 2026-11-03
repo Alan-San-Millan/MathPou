@@ -1,13 +1,47 @@
 import p5 from 'p5'
 
+export const IDEAL_COLOR = '#0b2a5b'
+export const RECONSTRUCTION_COLOR = '#d00000'
+
 function plotSize(container) {
   const width = Math.max(280, Math.floor(container.clientWidth || 800))
   const height = Math.max(240, Math.round(width * 0.5))
   return { width, height }
 }
 
-// Canvas de la escalera del dominio del tiempo. Antes se llamaba stepPlot.js.
-export function attachTimeDomainPlot(container, getSeries) {
+function computeBounds(layers) {
+  const time = layers.flatMap((layer) => layer.time)
+  const signal = layers.flatMap((layer) => layer.signal)
+  let minX = Math.min(...time)
+  let maxX = Math.max(...time)
+  let minY = Math.min(...signal)
+  let maxY = Math.max(...signal)
+  if (Math.abs(maxX - minX) < 1e-6) {
+    minX -= 0.5
+    maxX += 0.5
+  } else {
+    const range = (maxX - minX) || 1
+    maxX = maxX + range * 0.05
+  }
+  if (Math.abs(maxY - minY) < 1e-6) {
+    minY -= 1
+    maxY += 1
+  }
+  if (minY > 0) minY = 0
+  maxY = Math.ceil(maxY * 1.5)
+  const maxAmplitude = Math.max(...signal)
+  if (maxY < maxAmplitude + 2) maxY = Math.ceil(maxAmplitude + 2)
+  return {
+    minX: Math.floor(minX),
+    maxX: Math.ceil(maxX),
+    minY: Math.floor(minY),
+    maxY: Math.ceil(maxY),
+  }
+}
+
+// getLayers() → capas a dibujar: { time, signal, color, step, label }.
+// getBoundsLayers() → capas que fijan los ejes; permite que las tres gráficas compartan escala.
+export function attachTimeDomainPlot(container, getLayers, getBoundsLayers = getLayers) {
   const sketch = (p) => {
     p.setup = () => {
       const { width, height } = plotSize(container)
@@ -23,8 +57,8 @@ export function attachTimeDomainPlot(container, getSeries) {
 
     p.draw = () => {
       p.background(255)
-      const series = getSeries()
-      if (!series || !series.time?.length) {
+      const layers = (getLayers() || []).filter((layer) => layer?.time?.length && layer?.signal?.length)
+      if (!layers.length) {
         p.textSize(16)
         p.textAlign(p.CENTER, p.CENTER)
         p.fill(108, 117, 125)
@@ -33,41 +67,13 @@ export function attachTimeDomainPlot(container, getSeries) {
         return
       }
 
-      const { time, signal } = series
-      if (!signal?.length) {
-        p.textAlign(p.CENTER, p.CENTER)
-        p.fill(108, 117, 125)
-        p.text('Sin puntos de señal para dibujar', p.width / 2, p.height / 2)
-        return
-      }
-
-      let minX = Math.min(...time)
-      let maxX = Math.max(...time)
-      let minY = Math.min(...signal)
-      let maxY = Math.max(...signal)
-      if (Math.abs(maxX - minX) < 1e-6) {
-        minX -= 0.5
-        maxX += 0.5
-      } else {
-        const range = (maxX - minX) || 1
-        maxX = maxX + range * 0.05
-      }
-      if (Math.abs(maxY - minY) < 1e-6) {
-        minY -= 1
-        maxY += 1
-      }
-      if (minY > 0) minY = 0
-      maxY = Math.ceil(maxY * 1.5)
-      const maxAmplitude = Math.max(...signal)
-      if (maxY < maxAmplitude + 2) maxY = Math.ceil(maxAmplitude + 2)
-      minX = Math.floor(minX)
-      maxX = Math.ceil(maxX)
-      minY = Math.floor(minY)
-      maxY = Math.ceil(maxY)
+      const boundsLayers = (getBoundsLayers() || []).filter((layer) => layer?.time?.length && layer?.signal?.length)
+      const { minX, maxX, minY, maxY } = computeBounds(boundsLayers.length ? boundsLayers : layers)
 
       const left = 50
       const right = p.width - 50
-      const top = 50
+      // Margen superior amplio: arriba a la derecha va el slider de armónicos (HTML) y debajo la leyenda.
+      const top = 90
       const bottom = p.height - 50
 
       p.stroke('#000')
@@ -104,16 +110,42 @@ export function attachTimeDomainPlot(container, getSeries) {
       p.text('Amplitud', 0, 0)
       p.pop()
 
-      p.stroke(255, 165, 0)
-      p.strokeWeight(3)
-      p.noFill()
-      for (let i = 1; i < signal.length; i++) {
-        const x0 = p.map(time[i - 1], minX, maxX, left, right)
-        const y0 = p.map(signal[i - 1], minY, maxY, bottom, top)
-        const x1 = p.map(time[i], minX, maxX, left, right)
-        p.line(x0, y0, x1, y0)
-        const y1 = p.map(signal[i], minY, maxY, bottom, top)
-        if (y1 !== y0) p.line(x1, y0, x1, y1)
+      const mapX = (v) => p.map(v, minX, maxX, left, right)
+      const mapY = (v) => p.map(v, minY, maxY, bottom, top)
+
+      for (const layer of layers) {
+        const { time, signal } = layer
+        p.stroke(layer.color)
+        p.strokeWeight(layer.step ? 3 : 2)
+        p.noFill()
+        if (layer.step) {
+          for (let i = 1; i < signal.length; i++) {
+            const x0 = mapX(time[i - 1])
+            const y0 = mapY(signal[i - 1])
+            const x1 = mapX(time[i])
+            p.line(x0, y0, x1, y0)
+            const y1 = mapY(signal[i])
+            if (y1 !== y0) p.line(x1, y0, x1, y1)
+          }
+        } else {
+          p.beginShape()
+          for (let i = 0; i < signal.length; i++) p.vertex(mapX(time[i]), mapY(signal[i]))
+          p.endShape()
+        }
+      }
+
+      if (layers.length > 1) {
+        p.textSize(12)
+        p.textAlign(p.LEFT, p.CENTER)
+        layers.forEach((layer, index) => {
+          const y = 58 + index * 16
+          p.stroke(layer.color)
+          p.strokeWeight(3)
+          p.line(right - 140, y, right - 115, y)
+          p.noStroke()
+          p.fill('#000')
+          p.text(layer.label ?? '', right - 108, y)
+        })
       }
     }
   }
