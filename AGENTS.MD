@@ -30,7 +30,7 @@ Simulador educativo de series de Fourier: pulsos en el tiempo, armónicos en fre
 
 ## Arranque local
 
-Python 3.12+, Node 20+, **pnpm**.
+Python 3.12+, Node 22.12+, **pnpm**.
 
 ```bash
 # API
