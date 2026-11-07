@@ -50,6 +50,8 @@ CSS de vista = al lado del componente (`time-domain.css`, `auth.css`, …). Nada
 - `mathpou-api`: gunicorn en `0.0.0.0:$PORT`, health en `/api/health/`
 - `mathpou-web`: `pnpm build`, publish `dist`, rewrite SPA
 
+- Cuenta del asesor: cada build corre `manage.py ensure_advisor`, que crea o actualiza el usuario desde `ADVISOR_USERNAME` / `ADVISOR_EMAIL` / `ADVISOR_PASSWORD` (env del API, nunca en el repo). Sin esas variables no hace nada.
+
 Env del front (`VITE_API_URL`) se hornea en el build. Cambiarla después en el panel sin rebuild no alcanza.
 
 ## Qué no volver a hacer
